@@ -40,7 +40,7 @@ bl = st.number_input("Blood.loss:", min_value=0, max_value=10000, value=800)
 # RBC.t: numerical input
 rbct = st.number_input("RBC.t:", min_value=0, max_value=10000, value=600)
 
-feature_values = [tb, inr, dex, bl, ebct]
+feature_values = [tb, inr, dex, bl, rbct]
 features = np.array([feature_values])
 
 # # Sex: categorical selection
@@ -143,3 +143,4 @@ if st.button("Predict"):
     lime_html = lime_exp.as_html(show_table=False)  # Disable feature value table
 
     st.components.v1.html(lime_html, height=800, scrolling=True)
+
