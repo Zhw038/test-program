@@ -26,7 +26,7 @@ feature_names = [
 st.title("Hyperbilirubinemia after on-pump Cardiac Surgery Predictor")
 
 # TBIL.pre: numerical input
-tb = st.number_input("TBIL.pre:", min_value=0.0, max_value=100,0, value=23.0)
+tb = st.number_input("TBIL.pre:", min_value=0.0, max_value=100.0, value=23.0)
 
 # INR: numerical input
 inr = st.number_input("INR:", min_value=0.00, max_value=10.00, value=1.72)
@@ -141,4 +141,5 @@ if st.button("Predict"):
 
     # Display the LIME explanation without the feature value table
     lime_html = lime_exp.as_html(show_table=False)  # Disable feature value table
+
     st.components.v1.html(lime_html, height=800, scrolling=True)
