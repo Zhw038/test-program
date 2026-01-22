@@ -151,6 +151,9 @@ if st.button("Predict"):
 
 
 
+    # Delay to hold the page for a few seconds after LIME execution
+    time.sleep(30)
+
 
 
 
