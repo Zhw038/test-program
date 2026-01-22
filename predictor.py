@@ -149,5 +149,14 @@ if st.button("Predict"):
     # st.components.v1.html(lime_html, height=800, scrolling=True)
 
 
+    st.components.v1.html(
+    st.session_state.lime_html,
+    height=800,
+    scrolling=True
+)
+
+
+
+
 
 
