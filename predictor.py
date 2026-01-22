@@ -147,3 +147,12 @@ if st.button("Predict"):
 
     plt.savefig("shap_force_plot.png", bbox_inches='tight', dpi=1200)
     st.image("shap_force_plot.png", caption='SHAP Force Plot Explanation')
+
+
+import time
+
+progress_bar = st.progress(0)
+for percent in range(100):
+    progress_bar.progress(percent)
+    time.sleep(0.05)  # 每 0.05 秒更新一次
+st.success("任务完成！")
