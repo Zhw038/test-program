@@ -216,27 +216,27 @@ if st.button("Predict"):
     plt.savefig("shap_force_plot.png", bbox_inches='tight', dpi=1200)
     st.image("shap_force_plot.png", caption='SHAP Force Plot Explanation')
 
-    # LIME Explanation (with caching)
-    @st.cache(allow_output_mutation=True)
-    def get_lime_explanation(features, model):
-        lime_explainer = LimeTabularExplainer(
-            training_data=X_test.values,
-            feature_names=X_test.columns.tolist(),
-            class_names=['Not sick', 'Sick'],  
-            mode='classification'
-        )
-        lime_exp = lime_explainer.explain_instance(
-            data_row=features.flatten(),
-            predict_fn=model.predict_proba
-        )
-        return lime_exp
-
-    lime_exp = get_lime_explanation(features, model)
+    # LIME Explanation
+    st.subheader("LIME Explanation")
+    
+    # Avoid caching issue
+    lime_explainer = LimeTabularExplainer(
+        training_data=X_test.values,
+        feature_names=X_test.columns.tolist(),
+        class_names=['Not sick', 'Sick'],  
+        mode='classification'
+    )
+    
+    # Explain the instance
+    lime_exp = lime_explainer.explain_instance(
+        data_row=features.flatten(),
+        predict_fn=model.predict_proba
+    )
 
     # Display the LIME explanation without the feature value table
-    lime_html = lime_exp.as_html(show_table=False)  
+    lime_html = lime_exp.as_html(show_table=False)  # Disable feature value table
+
     st.components.v1.html(lime_html, height=800, scrolling=True)
 
     # Delay to hold the page for a few seconds after LIME execution
     time.sleep(3)
-
