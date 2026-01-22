@@ -112,25 +112,25 @@ if st.button("Predict"):
 
    
 
-    # LIME Explanation
-    st.subheader("LIME Explanation")
-    lime_explainer = LimeTabularExplainer(
-        training_data=X_test.values,
-        feature_names=X_test.columns.tolist(),
-        class_names=['Not sick', 'Sick'],  # Adjust class names to match your classification task
-        mode='classification'
-    )
+    # # LIME Explanation
+    # st.subheader("LIME Explanation")
+    # lime_explainer = LimeTabularExplainer(
+    #     training_data=X_test.values,
+    #     feature_names=X_test.columns.tolist(),
+    #     class_names=['Not sick', 'Sick'],  # Adjust class names to match your classification task
+    #     mode='classification'
+    # )
     
-    # Explain the instance
-    lime_exp = lime_explainer.explain_instance(
-        data_row=features.flatten(),
-        predict_fn=model.predict_proba
-    )
+    # # Explain the instance
+    # lime_exp = lime_explainer.explain_instance(
+    #     data_row=features.flatten(),
+    #     predict_fn=model.predict_proba
+    # )
 
-    # Display the LIME explanation without the feature value table
-    lime_html = lime_exp.as_html(show_table=False)  # Disable feature value table
+    # # Display the LIME explanation without the feature value table
+    # lime_html = lime_exp.as_html(show_table=False)  # Disable feature value table
 
-    st.components.v1.html(lime_html, height=800, scrolling=True)
+    # st.components.v1.html(lime_html, height=800, scrolling=True)
 
 
 
@@ -147,6 +147,34 @@ if st.button("Predict"):
 
     plt.savefig("shap_force_plot.png", bbox_inches='tight', dpi=1200)
     st.image("shap_force_plot.png", caption='SHAP Force Plot Explanation')
+
+
+if "lime_html" not in st.session_state:
+    st.session_state.lime_html = None
+
+if st.button("生成 LIME 解释"):
+    lime_explainer = LimeTabularExplainer(
+        training_data=X_test.values,
+        feature_names=X_test.columns.tolist(),
+        class_names=['Not sick', 'Sick'],
+        mode='classification'
+    )
+
+    lime_exp = lime_explainer.explain_instance(
+        data_row=features.flatten(),
+        predict_fn=model.predict_proba
+    )
+
+    st.session_state.lime_html = lime_exp.as_html(show_table=False)
+
+# 只展示，不重新算
+if st.session_state.lime_html is not None:
+    st.subheader("LIME Explanation")
+    st.components.v1.html(
+        st.session_state.lime_html,
+        height=800,
+        scrolling=True
+    )
 
 
 
