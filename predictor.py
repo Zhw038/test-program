@@ -26,7 +26,7 @@ feature_names = [
 st.title("Hyperbilirubinemia after on-pump Cardiac Surgery Predictor")
 
 # TBIL.pre: numerical input
-tb = st.number_input("TBIL.pre:", min_value=0.0, max_value=100.0, value=23.0)
+tb = st.number_input("TBIL.pre:", min_value=0.0, max_value=1000.0, value=23.0)
 
 # INR: numerical input
 inr = st.number_input("INR:", min_value=0.00, max_value=10.00, value=1.72)
@@ -35,10 +35,10 @@ inr = st.number_input("INR:", min_value=0.00, max_value=10.00, value=1.72)
 dex = st.selectbox("Dexmedetomidine:", options=[0, 1], format_func=lambda x: "Yes" if x == 1 else "NO")
 
 # Blood.loss: numerical input
-bl = st.number_input("Blood.loss:", min_value=0, max_value=10000, value=800)
+bl = st.number_input("Blood.loss:", min_value=0, max_value=8000, value=800)
 
 # RBC.t: numerical input
-rbct = st.number_input("RBC.t:", min_value=0, max_value=10000, value=600)
+rbct = st.number_input("RBC.t:", min_value=0, max_value=3000, value=600)
 
 feature_values = [tb, inr, dex, bl, rbct]
 features = np.array([feature_values])
@@ -110,19 +110,7 @@ if st.button("Predict"):
 
     st.write(advice)
 
-    # SHAP Explanation
-    st.subheader("SHAP Force Plot Explanation")
-    explainer_shap = shap.TreeExplainer(model)
-    shap_values = explainer_shap.shap_values(pd.DataFrame([feature_values], columns=feature_names))
-    
-    # Display the SHAP force plot for the predicted class
-    if predicted_class == 1:
-        shap.force_plot(explainer_shap.expected_value[1], shap_values[:,:,1], pd.DataFrame([feature_values], columns=feature_names), matplotlib=True)
-    else:
-        shap.force_plot(explainer_shap.expected_value[0], shap_values[:,:,0], pd.DataFrame([feature_values], columns=feature_names), matplotlib=True)
-
-    plt.savefig("shap_force_plot.png", bbox_inches='tight', dpi=1200)
-    st.image("shap_force_plot.png", caption='SHAP Force Plot Explanation')
+   
 
     # LIME Explanation
     st.subheader("LIME Explanation")
@@ -144,3 +132,18 @@ if st.button("Predict"):
 
     st.components.v1.html(lime_html, height=800, scrolling=True)
 
+
+
+ # SHAP Explanation
+    st.subheader("SHAP Force Plot Explanation")
+    explainer_shap = shap.TreeExplainer(model)
+    shap_values = explainer_shap.shap_values(pd.DataFrame([feature_values], columns=feature_names))
+    
+    # Display the SHAP force plot for the predicted class
+    if predicted_class == 1:
+        shap.force_plot(explainer_shap.expected_value[1], shap_values[:,:,1], pd.DataFrame([feature_values], columns=feature_names), matplotlib=True)
+    else:
+        shap.force_plot(explainer_shap.expected_value[0], shap_values[:,:,0], pd.DataFrame([feature_values], columns=feature_names), matplotlib=True)
+
+    plt.savefig("shap_force_plot.png", bbox_inches='tight', dpi=1200)
+    st.image("shap_force_plot.png", caption='SHAP Force Plot Explanation')
