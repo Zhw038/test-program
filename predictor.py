@@ -239,4 +239,5 @@ if st.button("Predict"):
     st.components.v1.html(lime_html, height=800, scrolling=True)
 
     # Delay to hold the page for a few seconds after LIME execution
-    time.sleep(3)
+    time.sleep(15)
+
