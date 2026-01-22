@@ -95,22 +95,37 @@ if st.button("Predict"):
     # Generate advice based on prediction results
     probability = predicted_proba[predicted_class] * 100
 
+    # if predicted_class == 1:
+    #     advice = (
+    #         f"According to our model, you have a high risk of hyperbilirubinemia. "
+    #         f"The model predicts that your probability of having hyperbilirubinemia is {probability:.1f}%. "
+    #         "It's advised to consult with your healthcare provider for further evaluation and possible intervention."
+    #     )
+    # else:
+    #     advice = (
+    #         f"According to our model, you have a low risk of hyperbilirubinemia. "
+    #         f"The model predicts that your probability of not having hyperbilirubinemia is {probability:.1f}%. "
+    #         "However, maintaining a healthy lifestyle is important. Please continue regular check-ups with your healthcare provider."
+    #     )
+
+    # st.write(advice)
+
+
+
     if predicted_class == 1:
         advice = (
-            f"According to our model, you have a high risk of hyperbilirubinemia. "
-            f"The model predicts that your probability of having hyperbilirubinemia is {probability:.1f}%. "
-            "It's advised to consult with your healthcare provider for further evaluation and possible intervention."
+            f"Based on the predictive model output, a high risk of hyperbilirubinemia is indicated. "
+            f"The model-estimated probability of hyperbilirubinemia is {probability:.1f}%. "
+            "Further clinical evaluation by a qualified healthcare provider is recommended to support decision-making and determine whether intervention is warranted."
         )
     else:
         advice = (
-            f"According to our model, you have a low risk of hyperbilirubinemia. "
-            f"The model predicts that your probability of not having hyperbilirubinemia is {probability:.1f}%. "
-            "However, maintaining a healthy lifestyle is important. Please continue regular check-ups with your healthcare provider."
+            f"Based on the predictive model output, a low risk of hyperbilirubinemia is indicated. "
+            f"The model-estimated probability of not developing hyperbilirubinemia is {probability:.1f}%. "
+            "Nevertheless, maintaining a healthy lifestyle and continuing routine follow-up with a healthcare provider are recommended."
         )
 
     st.write(advice)
-
-   
 
 
  # SHAP Explanation
@@ -153,6 +168,7 @@ if st.button("Predict"):
 
     # Delay to hold the page for a few seconds after LIME execution
     time.sleep(30)
+
 
 
 
